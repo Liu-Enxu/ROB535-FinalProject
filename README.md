@@ -71,4 +71,22 @@ Now we directly visualize the map mask retrieved above using `render_map_mask`:
 figsize = (12, 4)
 fig, ax = nusc_map.render_map_mask(patch_box, patch_angle, layer_names, canvas_size, figsize=figsize, n_row=1)
 ```
+Example map (segmented from 2000x2000 large map):
 
+![map1](https://github.com/user-attachments/assets/952247c2-dc8d-4833-8794-12e5402e9e8f)
+
+### Markov Decision Process
+We use the world 2d class to import the binary images and obtain a binary array, which marks the free spaces and obstacles. After selection of start and end, the MDP core of the robot runs to output an optimal path, and render both discrete grid steps and continuous path in Rviz.
+An example of rendering (with a user choice map and obstacle):
+![5](https://github.com/user-attachments/assets/de32522c-4bac-458c-90fa-611f82a144a5)
+
+### MPC 
+The MPC core then tries to follow the continuous state trajectory generated from MDP core, and render the result in the Rviz.
+An example of rendering (with a user choice map and obstacle):
+![MPC](https://github.com/user-attachments/assets/1be09955-41ef-483e-b6b7-e3d1f0b12180)
+
+Tracking results of nuScene map:
+
+![Screenshot from 2024-12-08 19-34-27](https://github.com/user-attachments/assets/3993bc9c-db4d-40d5-ae57-7efff8e5c43e)
+
+![trajectory full map](https://github.com/user-attachments/assets/b1666ad8-9bf1-4058-a247-1d9d3cdf3c8c)
