@@ -38,3 +38,37 @@ hollow_obstacles(map_array)
 ```
 Converts solid obstacles into hollow ones using binary erosion.
 
+## Methods and resources
+### nuScenes 
+We use nuscenes-devkit to get map data from nuScenes datasets (mini) and generate binary image of maps.
+#### Map data
+To install the map expansion, please download the files from https://www.nuscenes.org/download and copy the files into your nuScenes map folder, e.g. /data/sets/nuscenes/maps.
+#### Initialization
+We will be working with the `singapore-onenorth` map. The `NuScenesMap` can be initialized as follows:
+```
+import matplotlib.pyplot as plt
+import tqdm
+import numpy as np
+
+from nuscenes.map_expansion.map_api import NuScenesMap
+from nuscenes.map_expansion import arcline_path_utils
+from nuscenes.map_expansion.bitmap import BitMap
+
+nusc_map = NuScenesMap(dataroot='/data/sets/nuscenes', map_name='singapore-onenorth')
+```
+#### Rendering binary map mask layers
+The `NuScenesMap` class makes it possible to convert multiple map layers into binary mask and render on a Matplotlib figure. First let's call `get_map_mask` to look at the raw data of two layers:
+```
+patch_box = (300, 1700, 100, 100)
+patch_angle = 0  # Default orientation where North is up
+layer_names = ['drivable_area', 'walkway']
+canvas_size = (1000, 1000)
+map_mask = nusc_map.get_map_mask(patch_box, patch_angle, layer_names, canvas_size)
+map_mask[0]
+```
+Now we directly visualize the map mask retrieved above using `render_map_mask`:
+```
+figsize = (12, 4)
+fig, ax = nusc_map.render_map_mask(patch_box, patch_angle, layer_names, canvas_size, figsize=figsize, n_row=1)
+```
+
